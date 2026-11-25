@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tracker Hafalan</title>
+  <meta name="description" content="Catat dan pantau progres hafalan per ayat.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <span class="logo">Tracker Hafalan</span>
+      <div id="userbox" class="userbox" hidden>
+        <span id="useremail" class="muted small"></span>
+        <button id="btn-export" class="btn ghost compact" type="button">Ekspor cadangan</button>
+        <button id="btn-logout" class="btn ghost compact" type="button">Keluar</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <p id="msg" class="msg" role="status" aria-live="polite" hidden></p>
+
+    <!-- Tampil jika config.js belum diisi -->
+    <section id="setup" class="panel" hidden>
+      <h1>Database belum disambungkan</h1>
+      <p>Isi <code>SUPABASE_URL</code> dan <code>SUPABASE_KEY</code> di file <code>js/config.js</code>, lalu muat ulang halaman. Langkah lengkapnya ada di <code>README.md</code>, bagian "Menyiapkan database".</p>
+    </section>
+
+    <!-- Login / daftar -->
+    <section id="auth" class="panel narrow" hidden>
+      <h1>Masuk atau daftar</h1>
+      <p class="muted">Data hafalan Anda tersimpan di akun sendiri dan hanya bisa dibuka oleh Anda.</p>
+      <form id="auth-form">
+        <label for="email">Email</label>
+        <input id="email" type="email" autocomplete="email" required>
+        <label for="password">Kata sandi (minimal 6 karakter)</label>
+        <input id="password" type="password" autocomplete="current-password" minlength="6" required>
+        <div class="row">
+          <button id="btn-login" class="btn" type="submit">Masuk</button>
+          <button id="btn-signup" class="btn ghost" type="button">Daftar</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Aplikasi utama -->
+    <section id="app" hidden>
+      <div id="loadfail" class="panel" hidden>
+        <p id="loadtext">Memuat data…</p>
+        <button id="btn-retry" class="btn" type="button" hidden>Coba lagi</button>
+      </div>
+
+      <div id="appbody">
+        <div id="summary" class="summary"></div>
+
+        <div class="controls">
+          <input id="search" type="search" placeholder="Cari surah (nama atau nomor)…" aria-label="Cari surah">
+          <select id="filter" aria-label="Filter surah">
+            <option value="semua">Semua surah</option>
+            <option value="berjalan">Sedang berjalan</option>
+            <option value="selesai">Selesai</option>
+            <option value="murajaah">Perlu murajaah</option>
+            <option value="belum">Belum mulai</option>
+          </select>
+        </div>
+
+        <div class="layout">
+          <ul id="list" class="surah-list"></ul>
+          <div id="detail" class="panel detail"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">Tracker pribadi. Tidak menampilkan teks Al-Qur'an; gunakan mushaf Anda sendiri untuk menghafal.</div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/surahs.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
